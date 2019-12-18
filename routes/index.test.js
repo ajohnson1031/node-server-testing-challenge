@@ -14,12 +14,12 @@ describe("user endpoint testing", () => {
           password: bcrypt.hashSync("testpass", 12)
         })
         .set("Accept", "application/json")
-        .expect(200, done);
+        .expect(201, done);
     });
-  });
 
-  beforeEach(async () => {
-    await db("users").truncate();
+    beforeEach(async () => {
+      await db("users").truncate();
+    });
   });
 
   describe("testing update endpoint", () => {
@@ -27,11 +27,8 @@ describe("user endpoint testing", () => {
       request(server)
         .post("/api/users/1")
         .send({
-          id: 1,
-          changes: {
-            username: "aaron",
-            password: bcrypt.hashSync("strength", 12)
-          }
+          username: "aaron",
+          password: bcrypt.hashSync("strength", 12)
         })
         .set("Accept", "application/json")
         .expect(200, done);
@@ -52,7 +49,7 @@ describe("user endpoint testing", () => {
   describe("testing user delete endpoint", () => {
     it("deletes a user from the db", done => {
       request(server)
-        .delete("/api/users/1")
+        .del("/api/users/1")
         .expect(200, done);
     });
   });
