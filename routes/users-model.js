@@ -13,7 +13,7 @@ function remove(id) {
 }
 
 function getUsers() {
-  return null;
+  return db("users");
 }
 
 function getById(id) {
