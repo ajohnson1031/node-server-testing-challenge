@@ -1,15 +1,22 @@
 const db = require("../data/dbConfig.js");
 
 async function insert(user) {
-  return null;
+  const [id] = await db("users").insert(user);
+  return getById(id).first();
 }
 
 async function update(id, changes) {
-  return null;
+  const user = await db("users")
+    .where({ id })
+    .update(changes);
+
+  return getById(id);
 }
 
 function remove(id) {
-  return null;
+  return db("users")
+    .where({ id })
+    .del();
 }
 
 function getUsers() {
@@ -17,7 +24,9 @@ function getUsers() {
 }
 
 function getById(id) {
-  return null;
+  return db("users")
+    .where({ id })
+    .first();
 }
 
 module.exports = { insert, update, remove, getUsers, getById };
