@@ -6,7 +6,7 @@ async function insert(user) {
 }
 
 async function update(id, changes) {
-  const user = await db("users")
+  await db("users")
     .where({ id })
     .update(changes);
 

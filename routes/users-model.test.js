@@ -6,18 +6,11 @@ describe("test the users models", () => {
   describe("testing insert method", () => {
     it("inserts new users", async () => {
       let newUser = await users.insert({
-        username: "aaron",
+        username: "realuser",
         password: bcrypt.hashSync("strength", 12)
       });
 
-      expect(newUser.username).toBe("aaron");
-
-      let testUser = await users.insert({
-        username: "testuser",
-        password: bcrypt.hashSync("12345678", 12)
-      });
-
-      expect(testUser.username).toBe("testuser");
+      expect(newUser.username).toBe("realuser");
     });
 
     beforeEach(async () => {
@@ -28,25 +21,28 @@ describe("test the users models", () => {
   describe("testing get methods", () => {
     it("returns all users", async () => {
       const allUsers = await users.getUsers();
-      expect(allUsers).toHaveLength(2);
+      expect(allUsers).not.toBe(null);
     });
 
     it("returns a specific user", async () => {
-      const thisUser = await users.getById(1);
-      expect(thisUser.username).toBe("aaron");
+      const thisUser = await users.getById("1");
+      expect(thisUser.username).toBe("realuser");
     });
   });
 
   describe("testing update method", () => {
     it("updates a user", async () => {
-      const editedUser = await users.update("2", { username: "realuser" });
-      expect(editedUser.username).toBe("realuser");
+      const editedUser = await users.update("1", {
+        username: "aaron",
+        password: bcrypt.hashSync("strength", 12)
+      });
+      expect(editedUser.username).toBe("aaron");
     });
   });
 
   it("removes a user", async () => {
-    const removeUser = await users.remove(2);
+    const removeUser = await users.remove(1);
     const currentUsers = await users.getUsers();
-    expect(currentUsers).toHaveLength(1);
+    expect(currentUsers).toHaveLength(0);
   });
 });
